@@ -35,6 +35,8 @@
 将项目clone到任意目录下，修改`Config.h`中的数据库配置为自己的数据库配置，然后使用下列命令即可编译项目，生成发布包
 
 ```sh
+git clone https://github.com/TarsDemo/Tars-MiniProgramm-Service-DataServer.git DataServer
+cd DataServer
 make
 make tar
 ```
