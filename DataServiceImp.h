@@ -95,29 +95,6 @@ public:
     virtual int getManagerClubList(tars::Int32 index, tars::Int32 batch, const std::string &wx_id, tars::Int32 &nextIndex, vector<LifeService::ClubInfo> &clubInfoList, tars::TarsCurrentPtr current);
     
     /**
-     * @brief 获取社团管理者记录数
-     * @param wx_id   用户id
-     * @param club_id 社团id
-     * @out   count   记录数
-     */
-    virtual int getClubManagerCount(const std::string &wx_id, const std::string &club_id, tars::Int32 &count, tars::TarsCurrentPtr current);
-    
-    /**
-     * @brief 删除社团
-     * @param club_id    社团id
-     * @out   affectRows 影响记录数
-     */
-    virtual int deleteClub(const std::string &club_id, tars::Int32 &affectRows, tars::TarsCurrentPtr current);
-    
-    /**
-     * @brief 删除社团管理
-     * @param wx_id      用户id
-     * @param club_id    社团id
-     * @out   affectRows 影响记录数
-     */
-    virtual int deleteClubManager(const std::string &wx_id, const std::string &club_id, tars::Int32 &affectRows, tars::TarsCurrentPtr current);
-
-    /**
      * @brief 创建社团申请
      * @param wx_id   用户微信id
      * @param club_id 社团id
@@ -151,25 +128,17 @@ public:
      * @param wx_id        用户微信id
      * @param club_id      社团id
      * @param apply_status 申请状态
-     * @out   affectRows   影响行数
+     * @out   iRetCode     返回状态码
      */
-    virtual int setApplyStatus(const std::string &wx_id, const std::string &club_id, tars::Int32 apply_status, tars::Int32 &affectRows, tars::TarsCurrentPtr current);
+    virtual int setApplyStatus(const std::string &wx_id, const std::string &club_id, tars::Int32 apply_status, tars::Int32 &iRetCode, tars::TarsCurrentPtr current);
     
     /**
-     * @brief 获取社团申请数量
-     * @param wx_id        用户id
-     * @param club_id      社团id
-     * @param apply_status 申请状态,为正数时返回对应状态记录数;为负数时返回除其绝对值外的状态记录数
-     * @out   count        记录数
-     */
-    virtual int getApplyCount(const std::string &wx_id, const std::string &club_id, tars::Int32 apply_status, tars::Int32 &count, tars::TarsCurrentPtr current);
-    /**
      * @brief 删除申请
-     * @param wx_id      用户微信id
-     * @param club_id    社团id
-     * @out   affectRows 影响行数
+     * @param wx_id    用户微信id
+     * @param club_id  社团id
+     * @out   iRetCode 返回状态码
      */
-    virtual int deleteApply(const std::string &wx_id, const std::string &club_id, tars::Int32 &affectRows, tars::TarsCurrentPtr current);
+    virtual int deleteApply(const std::string &wx_id, const std::string &club_id, tars::Int32 &iRetCode, tars::TarsCurrentPtr current);
 
     /**
      * @brief 新建活动
@@ -190,16 +159,16 @@ public:
     /**
      * @brief 更新活动信息
      * @param activityInfo 活动信息(tars文件中定义), 只需传入activity_id, name, start_time, stop_time, registry_start_time, registry_stop_time, content。只修改上述除activity_id外的信息
-     * @out   affectRows   影响行数
+     * @out   iRetCode     返回状态码
      */
-    virtual int updateActivity(const LifeService::ActivityInfo &activityInfo, tars::Int32 &affectRows, tars::TarsCurrentPtr current);
+    virtual int updateActivity(const LifeService::ActivityInfo &activityInfo, tars::Int32 &iRetCode, tars::TarsCurrentPtr current);
     
     /**
      * @brief 删除活动
      * @param activity_id 活动id
-     * @out   affectRows  影响行数
+     * @out   iRetCode    返回状态码
      */
-    virtual int deleteActivity(const std::string &activity_id, tars::Int32 &affectRows, tars::TarsCurrentPtr current);
+    virtual int deleteActivity(const std::string &activity_id, tars::Int32 &iRetCode, tars::TarsCurrentPtr current);
     
     /**
      * @brief 获取活动详情
@@ -226,20 +195,12 @@ public:
     virtual int getActivityRecords(tars::Int32 index, tars::Int32 batch, const std::string &activity_id, tars::Int32 &nextIndex, vector<LifeService::ActivityRecord> &recordList, tars::TarsCurrentPtr current);
     
     /**
-     * @brief 获取活动记录数
-     * @param wx_id       用户id
-     * @param activity_id 活动id
-     * @out   count       记录数
-     */
-    virtual int getRecordCount(const std::string &wx_id, const std::string &activity_id, tars::Int32 &count, tars::TarsCurrentPtr current);
-
-    /**
      * @brief 删除活动记录
      * @param activity_id 活动id
      * @param wx_id       用户微信id
-     * @out   affectRows  影响行数
+     * @out   iRetCode    返回状态码
      */
-    virtual int deleteActivityRecord(const std::string &activity_id, const std::string &wx_id, tars::Int32 &affectRows, tars::TarsCurrentPtr current);
+    virtual int deleteActivityRecord(const std::string &activity_id, const std::string &wx_id, tars::Int32 &iRetcode, tars::TarsCurrentPtr current);
     /**
      * @brief 插入留言
      * @param msg 表白墙留言信息, Message在tars文件中定义
@@ -270,20 +231,28 @@ public:
     virtual int getLike(const std::string &message_id, tars::Int32 &like_count, tars::TarsCurrentPtr current);
     
     /**
-     * @brief 向数据库插入数据, 取消权限过高的接口
+     * @brief 向数据库插入数据
      * @param sTableName 表名
      * @param vColumns   列名, 值。Column在tars文件中定义, 其中DBInt字段为true时代表不需要转译, false代表需要转译
      */
-    // virtual int insertData(const std::string &sTableName, const vector<LifeService::Column> &vColumns, tars::TarsCurrentPtr current);
+    virtual int insertData(const std::string &sTableName, const vector<LifeService::Column> &vColumns, tars::TarsCurrentPtr current);
     
     /**
-     * @brief 查询数据, 取消权限过高的接口
+     * @brief 查询数据
      * @param sTableName 表名
      * @param vColumns   列名
      * @param sCondition where域条件
      * @out   vmpResults 查询结果, 类型为map<列名,值> 
      */
-    // virtual int queryData(const std::string &sTableName, const vector<std::string> &vColumns, const std::string &sCondition, vector<map<std::string, std::string>> &vmpResults, tars::TarsCurrentPtr current);
+    virtual int queryData(const std::string &sTableName, const vector<std::string> &vColumns, const std::string &sCondition, vector<map<std::string, std::string>> &vmpResults, tars::TarsCurrentPtr current);
+
+    /**
+     * @brief 获取记录数
+     * @param sTableName 表名
+     * @param sCondition where子语句
+     * @out   iCount     记录数
+     */
+    virtual int getRecordCount(const std::string &sTableName, const std::string &sCondition, tars::Int32 &iCount, tars::TarsCurrentPtr current);
 };
 /////////////////////////////////////////////////////
 #endif
