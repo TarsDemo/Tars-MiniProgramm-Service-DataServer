@@ -28,7 +28,7 @@ int UserHandle::LoadDataFromDb()
         }
         catch (exception &e)
         {
-            LOG->error() << "User Info error query: " << e.what() << endl;
+            TLOGERROR("User Info error query: " << e.what() << endl);
             return -1;
         }
         size_t oResultsCount = oResults.size();
@@ -45,10 +45,10 @@ int UserHandle::LoadDataFromDb()
 
             mUserInfo.insert(make_pair(oResults[i][vColumns[0]], userInfo));
             mPhoneToWxId.insert(make_pair(userInfo.phone, oResults[i][vColumns[0]]));
-            LOG->debug() << "UserHandle::LoadDataFromDb : "
-                         << oResults[i]["wx_id"] << "\t" 
-                         << oResults[i]["name"] << "\t"
-                         << oResults[i]["group_id"] << endl;
+            TLOGDEBUG("UserHandle::LoadDataFromDb : "
+                    << oResults[i]["wx_id"] << "\t" 
+                    << oResults[i]["name"] << "\t"
+                    << oResults[i]["group_id"] << endl);
         }
     }
     {
@@ -61,7 +61,7 @@ int UserHandle::LoadDataFromDb()
         }
         catch (exception &e)
         {
-            LOG->error() << "Group Info error query: " << e.what() << endl;
+            TLOGERROR("Group Info error query: " << e.what() << endl);
             return -1;
         }
         size_t oResultsCount = oResults.size();
@@ -92,7 +92,7 @@ int UserHandle::InsertUserData(const string &wx_id, const LifeService::UserInfo 
     }
     catch(exception &e)
     {
-        LOG->error() << "UserHandle::InsertUserData error: " << e.what() << endl;
+        TLOGERROR("UserHandle::InsertUserData error: " << e.what() << endl);
         return -1;
     }
     
@@ -102,10 +102,10 @@ int UserHandle::InsertUserData(const string &wx_id, const LifeService::UserInfo 
         mPhoneToWxId.insert(make_pair(userInfo.phone, wx_id));
     }
 
-    LOG->debug() << "UserHandle::InsertUserData : " 
+    TLOGDEBUG("UserHandle::InsertUserData : " 
                  << wx_id << "\t"
                  << userInfo.name << "\t"
-                 << userInfo.group << "\t";
+                 << userInfo.group << "\t");
     
     return 0;
 }
@@ -164,7 +164,7 @@ int ClubHandle::LoadDataFromDb()
         }
         catch (exception &e)
         {
-            LOG->error() << "Club Info error query: " << e.what() << endl;
+            TLOGERROR("Club Info error query: " << e.what() << endl);
             return -1;
         }
         size_t oResultsCount = oResults.size();
@@ -181,10 +181,10 @@ int ClubHandle::LoadDataFromDb()
             vClubInfo.push_back(clubInfo);
             mClub.insert(make_pair(clubInfo.club_id, (int)vClubInfo.size() - 1));
 
-            LOG->debug() << "club id: " << clubInfo.club_id
-                         << "\tclub name: " << clubInfo.name << endl;
+            TLOGDEBUG("club id: " << clubInfo.club_id
+                         << "\tclub name: " << clubInfo.name << endl);
         }
-        LOG->debug() << "vector size: " << vClubInfo.size() << endl;
+        TLOGDEBUG("vector size: " << vClubInfo.size() << endl);
     }
     return 0;
 }
@@ -203,11 +203,11 @@ int ClubHandle::InsertClubManager(const string &wx_id, const string &club_id)
     }
     catch (exception &e)
     {
-        LOG->error() << "ClubHandle::InsertClubManager error: " << e.what() << endl;
+        TLOGERROR("ClubHandle::InsertClubManager error: " << e.what() << endl);
         return -1;
     }
 
-    LOG->debug() << "ClubHandle::InsertClubManager user: " << wx_id << " club_id: " << club_id << endl;
+    TLOGDEBUG("ClubHandle::InsertClubManager user: " << wx_id << " club_id: " << club_id << endl);
     return 0;
 }
 //////////////////////////////////////////////////////
@@ -231,7 +231,7 @@ int ClubHandle::InsertClubData(LifeService::ClubInfo clubInfo, string &club_id)
         }
         catch (exception &e)
         {
-            LOG->error() << "ClubHandle::InsertClubData error: " << e.what() << endl;
+            TLOGERROR("ClubHandle::InsertClubData error: " << e.what() << endl);
             return -1;
         }
         // 新增数据到数组和map中
@@ -245,7 +245,7 @@ int ClubHandle::InsertClubData(LifeService::ClubInfo clubInfo, string &club_id)
     }
     
 
-    LOG->debug() << "Insert Club Data: " << clubInfo.name << endl;
+    TLOGDEBUG("Insert Club Data: " << clubInfo.name << endl);
 
     return 0;
 }
@@ -273,9 +273,9 @@ int ClubHandle::GetClubList(int index, int batch, const string &wx_id, int &next
         // 是否还有数据
         nextIndex = ((endp + 1 == lenofclub)? -1 : (endp + 1));
 
-        LOG->debug() << "ClubHandle::GetClubList List size: " << clubInfoList.size() 
+        TLOGDEBUG("ClubHandle::GetClubList List size: " << clubInfoList.size() 
                      << " index: " << index
-                     << " endp: " << endp << endl;
+                     << " endp: " << endp << endl);
         return 0;
     }
 
@@ -295,7 +295,7 @@ int ClubHandle::GetClubList(int index, int batch, const string &wx_id, int &next
         }
         catch (exception &e)
         {
-            LOG->error() << "GetClubList query error: " << e.what() << endl;
+            TLOGERROR("GetClubList query error: " << e.what() << endl);
             return -1;
         }
         size_t oResultsCount = oResults.size();
@@ -316,7 +316,7 @@ int ClubHandle::GetClubList(int index, int batch, const string &wx_id, int &next
         }
     }
 
-    LOG->debug() << "ClubHandle::GetClubList Execute SQL: " << sSql << endl;
+    TLOGDEBUG("ClubHandle::GetClubList Execute SQL: " << sSql << endl);
     return 0;
 }
 //////////////////////////////////////////////////////
@@ -341,7 +341,7 @@ int ClubHandle::GetManagerClubList(int index, int batch, const string &wx_id, in
         }
         catch (exception &e)
         {
-            LOG->error() << "GetClubList query error: " << e.what() << endl;
+            TLOGERROR("GetClubList query error: " << e.what() << endl);
             return -1;
         }
 
@@ -363,7 +363,7 @@ int ClubHandle::GetManagerClubList(int index, int batch, const string &wx_id, in
         }
     }
 
-    LOG->debug() << "ClubHandle::GetManagerClubList Execute SQL: " << sSql << endl;
+    TLOGDEBUG("ClubHandle::GetManagerClubList Execute SQL: " << sSql << endl);
     return 0;
 }
 //////////////////////////////////////////////////////
@@ -379,10 +379,10 @@ int ClubHandle::GetClubManagerCount(const string &wx_id, const string &club_id)
     }
     catch (exception &e)
     {
-        LOG->error() << "ClubHandle::GetClubManagerCount error: " << e.what() << endl;
+        TLOGERROR("ClubHandle::GetClubManagerCount error: " << e.what() << endl);
         return -1;
     }
-    LOG->debug() << "ClubHandle::GetClubManagerCount Table: " << sTableName << " Condition: " << sCondition << endl;
+    TLOGDEBUG("ClubHandle::GetClubManagerCount Table: " << sTableName << " Condition: " << sCondition << endl);
     return count;
 }
 //////////////////////////////////////////////////////
@@ -398,7 +398,7 @@ int ClubHandle::DeleteClub(const string &club_id)
     }
     catch(exception &e)
     {
-        LOG->error() << "ClubHandle::DeleteClub Delete Error: " << e.what() << endl;
+        TLOGERROR("ClubHandle::DeleteClub Delete Error: " << e.what() << endl);
         return -1;
     }
     {
@@ -409,7 +409,7 @@ int ClubHandle::DeleteClub(const string &club_id)
             mClub[vClubInfo[i].club_id] = i;
         }
     }
-    LOG->debug() << "ClubHandle::DeleteClub Delete Club: " << vClubInfo[mClub[club_id]].name << endl;
+    TLOGDEBUG("ClubHandle::DeleteClub Delete Club: " << vClubInfo[mClub[club_id]].name << endl);
     return affectRows;
 }
 //////////////////////////////////////////////////////
@@ -423,10 +423,10 @@ int ClubHandle::DeleteClubManager(const string &wx_id, const string &club_id)
     }
     catch (exception &e)
     {
-        LOG->error() << "ClubHandle::DeleteClubManager Error: " << e.what() << endl;
+        TLOGERROR("ClubHandle::DeleteClubManager Error: " << e.what() << endl);
         return -1;
     }
-    LOG->debug() << "ClubHandle::DeleteClubManager wx_id:" << wx_id << " club_id:" << club_id << endl;
+    TLOGDEBUG("ClubHandle::DeleteClubManager wx_id:" << wx_id << " club_id:" << club_id << endl);
     return affectRows;
 }
 //////////////////////////////////////////////////////
@@ -445,10 +445,10 @@ int ClubHandle::InsertApplyData(const string &wx_id, const string &club_id)
     }
     catch (exception &e)
     {
-        LOG->error() << "ClubHandle::InsertApplyData Insert Error: " << e.what() << endl;
+        TLOGERROR("ClubHandle::InsertApplyData Insert Error: " << e.what() << endl);
         return -1;
     }
-    LOG->debug() << "ClubHandle::InsertApplyData wx_id: " << wx_id << " club_id: " << club_id << endl;
+    TLOGDEBUG("ClubHandle::InsertApplyData wx_id: " << wx_id << " club_id: " << club_id << endl);
     return 0;
 }
 //////////////////////////////////////////////////////
@@ -485,7 +485,7 @@ int ClubHandle::GetApplyListByClubId(const string &club_id, int index, int batch
         }
         catch (exception &e)
         {
-            LOG->error() << "GetApplyListByClubId query error: " << e.what() << endl;
+            TLOGERROR("GetApplyListByClubId query error: " << e.what() << endl);
             return -1;
         }
         size_t oResultsCount = oResults.size();
@@ -508,7 +508,7 @@ int ClubHandle::GetApplyListByClubId(const string &club_id, int index, int batch
             applyList.push_back(applyInfo);
         }
     }
-    LOG->debug() << "ClubHandle::GetApplyListByClubId Execute SQL: " << sSql << endl;
+    TLOGDEBUG("ClubHandle::GetApplyListByClubId Execute SQL: " << sSql << endl);
     return 0;
 }
 //////////////////////////////////////////////////////
@@ -544,7 +544,7 @@ int ClubHandle::GetApplyListByUserId(const string &wx_id, int index, int batch, 
         }
         catch (exception &e)
         {
-            LOG->error() << "GetApplyListByUserId query error: " << e.what() << endl;
+            TLOGERROR("GetApplyListByUserId query error: " << e.what() << endl);
             return -1;
         }
         size_t oResultsCount = oResults.size();
@@ -567,7 +567,7 @@ int ClubHandle::GetApplyListByUserId(const string &wx_id, int index, int batch, 
         }
     }
 
-    LOG->debug() << "ClubHandle::GetApplyListByUserId Execute SQL: " << sSql << endl;
+    TLOGDEBUG("ClubHandle::GetApplyListByUserId Execute SQL: " << sSql << endl);
     return 0;
 }
 //////////////////////////////////////////////////////
@@ -592,12 +592,12 @@ int ClubHandle::SetApplyStatus(const string &wx_id, const string &club_id, int a
     }
     catch(exception &e)
     {
-        LOG->error() << "ClubHandle::SetApplyStatus Execute update error:" << e.what() << endl;
+        TLOGERROR("ClubHandle::SetApplyStatus Execute update error:" << e.what() << endl);
         return -1;
     }
     
     // MDbExecuteRecord::getInstance()->AddExecuteSql(sSql);
-    LOG->debug() << "ClubHandle::SetApplyStatus Execute update apply_status: " << apply_status << endl;
+    TLOGDEBUG("ClubHandle::SetApplyStatus Execute update apply_status: " << apply_status << endl);
     return affectRows;
 }
 //////////////////////////////////////////////////////
@@ -618,10 +618,10 @@ int ClubHandle::GetApplyCount(const string &wx_id, const string &club_id, int ap
     }
     catch (exception &e)
     {
-        LOG->error() << "ClubHandle::GetApplyCount error: " << e.what() << endl;
+        TLOGERROR("ClubHandle::GetApplyCount error: " << e.what() << endl);
         return -1;
     }
-    LOG->debug() << "ClubHandle::GetApplyCount Table: " << sTableName << " Condition: " << sCondition << endl;
+    TLOGDEBUG("ClubHandle::GetApplyCount Table: " << sTableName << " Condition: " << sCondition << endl);
     return count;
 }
 //////////////////////////////////////////////////////
@@ -637,12 +637,12 @@ int ClubHandle::DeleteApply(const string &wx_id, const string &club_id)
     }
     catch(exception &e)
     {
-        LOG->error() << "ClubHandle::DeleteApply Execute delete error:" << e.what() << endl;
+        TLOGERROR("ClubHandle::DeleteApply Execute delete error:" << e.what() << endl);
         return -1;
     }
     // 将sql语句添加到MDbExecuteRecord类的执行队列中
     // MDbExecuteRecord::getInstance()->AddExecuteSql(sSql);
-    LOG->debug() << "ClubHandle::DeleteApply delete record :" << sCondition << endl;
+    TLOGDEBUG("ClubHandle::DeleteApply delete record :" << sCondition << endl);
     return affectRows;
 }
 //////////////////////////////////////////////////////
@@ -667,10 +667,10 @@ int ActivityHandle::InsertActivityData(const LifeService::ActivityInfo activityI
     }
     catch (exception &e)
     {
-        LOG->error() << "ActivityHandle::InsertActivityData Insert Error: " << e.what() << endl;
+        TLOGERROR("ActivityHandle::InsertActivityData Insert Error: " << e.what() << endl);
         return -1;
     }
-    LOG->debug() << "ActivityHandle::InsertActivityData Name: " << activityInfo.name << endl;
+    TLOGDEBUG("ActivityHandle::InsertActivityData Name: " << activityInfo.name << endl);
     return 0;
 }
 //////////////////////////////////////////////////////
@@ -720,7 +720,7 @@ int ActivityHandle::GetActivityList(int index, int batch, const string &wx_id, c
         }
         catch (exception &e)
         {
-            LOG->error() << "GetActivityList query error: " << e.what() << endl;
+            TLOGERROR("GetActivityList query error: " << e.what() << endl);
             return -1;
         }
         size_t oResultsCount = oResults.size();
@@ -752,7 +752,7 @@ int ActivityHandle::GetActivityList(int index, int batch, const string &wx_id, c
             activityList.push_back(item);
         }
     }
-    LOG->debug() << "ActivityHandle::GetActivityList AddExecuteSql: " << sSql << endl;
+    TLOGDEBUG("ActivityHandle::GetActivityList AddExecuteSql: " << sSql << endl);
 
     return 0;
 }
@@ -774,7 +774,7 @@ int ActivityHandle::UpdateActivity(const LifeService::ActivityInfo &activityInfo
     }
     catch(exception &e)
     {
-        LOG->error() << "ActivityHandle::UpdateActivity error: " << e.what() << endl;
+        TLOGERROR("ActivityHandle::UpdateActivity error: " << e.what() << endl);
         return -1;
     }
     return affectRows;
@@ -794,11 +794,11 @@ int ActivityHandle::DeleteActivity(const string &activity_id)
     }
     catch(exception &e)
     {
-        LOG->error() << "ActivityHandle::DeleteActivity error: " << e.what() << endl;
+        TLOGERROR("ActivityHandle::DeleteActivity error: " << e.what() << endl);
         return -1;
     }
 
-    LOG->debug() << "ActivityHandle::DeleteActivity AddExecuteSql: " << sql_delete_records << ", " << sql_delete_activity << endl;
+    TLOGDEBUG("ActivityHandle::DeleteActivity AddExecuteSql: " << sql_delete_records << ", " << sql_delete_activity << endl);
     return affectRows;
 }
 //////////////////////////////////////////////////////
@@ -819,7 +819,7 @@ int ActivityHandle::GetActivityInfo(const string &activity_id, LifeService::Acti
         }
         catch (exception &e)
         {
-            LOG->error() << "ActivityHandle::GetActivityInfo Execute SQL ERROR: " << sSql << endl;
+            TLOGERROR("ActivityHandle::GetActivityInfo Execute SQL ERROR: " << sSql << endl);
             return -1;
         }
 
@@ -827,7 +827,7 @@ int ActivityHandle::GetActivityInfo(const string &activity_id, LifeService::Acti
 
         if (oResultsCount < 1)
         {
-            LOG->error() << "ActivityHandle::GetActivityInfo No Query Result For SQL: " << sSql << endl;
+            TLOGERROR("ActivityHandle::GetActivityInfo No Query Result For SQL: " << sSql << endl);
             return -1;
         }
 
@@ -861,10 +861,10 @@ int ActivityHandle::InsertActivityRecord(const string &wx_id, const string &acti
     }
     catch (exception &e)
     {
-        LOG->error() << "ActivityHandle::InsertActivityRecord Error: " << e.what() << endl;
+        TLOGERROR("ActivityHandle::InsertActivityRecord Error: " << e.what() << endl);
         return -1;
     }
-    LOG->debug() << "ActivityHandle::InsertActivityRecord Inser Record: user_id " << wx_id << " activity_id " << activity_id << endl;
+    TLOGDEBUG("ActivityHandle::InsertActivityRecord Inser Record: user_id " << wx_id << " activity_id " << activity_id << endl);
     return 0;
 }
 //////////////////////////////////////////////////////
@@ -889,7 +889,7 @@ int ActivityHandle::GetActivityRecords(int index, int batch, const string &activ
         }
         catch (exception &e)
         {
-            LOG->error() << "DataServiceImp::getActivityRecords error: " << e.what() << endl;
+            TLOGERROR("DataServiceImp::getActivityRecords error: " << e.what() << endl);
             return -1;
         }
         size_t oResultsCount = oResults.size();
@@ -909,7 +909,7 @@ int ActivityHandle::GetActivityRecords(int index, int batch, const string &activ
         }
     }
     
-    LOG->debug() << "DataServiceImp::getActivityRecords Execute SQL: " << sSql << endl;
+    TLOGDEBUG("DataServiceImp::getActivityRecords Execute SQL: " << sSql << endl);
     return 0;
 }
 //////////////////////////////////////////////////////
@@ -925,11 +925,11 @@ int ActivityHandle::GetRecordCount(const string &wx_id, const string &activity_i
     }
     catch (exception &e)
     {
-        LOG->error() << "ActivityHandle::GetRecordCount: " << e.what() << endl;
+        TLOGERROR("ActivityHandle::GetRecordCount: " << e.what() << endl);
         count = -1;
         return 0;
     }
-    LOG->debug() << "ActivityHandle::GetRecordCount Table: " << sTableName << " Condition: " << sCondition << endl;
+    TLOGDEBUG("ActivityHandle::GetRecordCount Table: " << sTableName << " Condition: " << sCondition << endl);
     return count;
 }
 //////////////////////////////////////////////////////
@@ -947,7 +947,7 @@ int MsgWallHandle::InsertMessage(const LifeService::Message &msg)
     // 将sql语句添加到MDbExecuteRecord类的执行队列中
     MDbExecuteRecord::getInstance()->AddExecuteSql(sSql);
 
-    LOG->debug() << "Insert Message Wall Data " << msg.user_id << endl;
+    TLOGDEBUG("Insert Message Wall Data " << msg.user_id << endl);
 
     return 0;
 }
@@ -985,7 +985,7 @@ int MsgWallHandle::GetMsgList(int index, int batch, const string &date, const st
         }
         catch (exception &e)
         {
-            LOG->error() << "GetMsgList error query: " << e.what() << endl;
+            TLOGERROR("GetMsgList error query: " << e.what() << endl);
             return -1;
         }
 
@@ -1012,7 +1012,7 @@ int MsgWallHandle::GetMsgList(int index, int batch, const string &date, const st
             msgList.push_back(msg);
         }
     }
-    LOG->debug() << "MsgWallHandle::GetMsgList Execute SQL: " << sql << endl;    
+    TLOGDEBUG("MsgWallHandle::GetMsgList Execute SQL: " << sql << endl);    
     return 0;
 }
 //////////////////////////////////////////////////////
@@ -1023,7 +1023,7 @@ int MsgWallHandle::AddLike(const string &message_id)
 
     // 将sql语句添加到MDbExecuteRecord类的执行队列中
     MDbExecuteRecord::getInstance()->AddExecuteSql(sSql);
-    LOG->debug() << "MsgWallHandle::AddLike AddExecuteSql: " << sSql << endl;    
+    TLOGDEBUG("MsgWallHandle::AddLike AddExecuteSql: " << sSql << endl);    
     return 0;
 }
 //////////////////////////////////////////////////////
@@ -1039,7 +1039,7 @@ int MsgWallHandle::GetLike(const string &message_id, int &like_count)
         }
         catch (exception &e)
         {
-            LOG->error() << "GetLike error query: " << e.what() << endl;
+            TLOGERROR("GetLike error query: " << e.what() << endl);
             return -1;
         }
 
@@ -1048,6 +1048,6 @@ int MsgWallHandle::GetLike(const string &message_id, int &like_count)
 
         like_count = TC_Common::strto<int>(oResult[0]["like_count"]);
     }
-    LOG->debug() << "MsgWallHandle::GetLike AddExecuteSql: " << sSql << endl;    
+    TLOGDEBUG("MsgWallHandle::GetLike AddExecuteSql: " << sSql << endl);    
     return 0;
 }

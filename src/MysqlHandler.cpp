@@ -7,7 +7,7 @@ using namespace std;
 
 tars::TC_Mysql * MDbQueryRecord::GetMysqlObject()
 {
-    unsigned int uiThreadId = (unsigned int) pthread_self();
+    unsigned long int uiThreadId = (unsigned long int) pthread_self();
     // 查询此线程是否存在Mysql对象, 存在则返回; 不存在则新建并保存
     if (MysqlMap.find(uiThreadId) != MysqlMap.end())
     {
@@ -33,7 +33,8 @@ tars::TC_Mysql * MDbQueryRecord::GetMysqlObject()
         {
             // 向Notify节点报告异常
             TarsRemoteNotify::getInstance()->report("CONNECT_MDB_ERROR");
-            LOG->error() << "MDbTbUpdateThread::GetMysqlObject exception: " << e.what() << endl;
+            TLOGERROR("MDbTbUpdateThread::GetMysqlObject exception: " << e.what() << endl);
+            // LOG->error() << "MDbTbUpdateThread::GetMysqlObject exception: " << e.what() << endl;
             delete ptrMysql;    
             return NULL;
         }
@@ -56,7 +57,8 @@ void MDbQueryRecord::InsertData(const string &tableName,const vector<LifeService
     }
 
     string sql = GetMysqlObject()->buildInsertSQL(tableName, mpColumns);
-    LOG->debug() << "Insert report info: " << sql << endl;
+    TLOGDEBUG("Insert report info: " << sql << endl);
+    // LOG->debug() << "Insert report info: " << sql << endl;
     MDbExecuteRecord::getInstance()->AddExecuteSql(sql);
 }
 
@@ -72,13 +74,14 @@ bool MDbExecuteRecord::Init()
 
     try
     {
-        _pMysql = TC_SharedPtr<TC_Mysql>(new TC_Mysql);
+        _pMysql = shared_ptr<TC_Mysql>(new TC_Mysql);
         _pMysql->init(_tcDbConfig);
         _pMysql->connect();
     }
     catch (exception & e)
     {
-        LOG->error() << "MDbExcuteRecord::Init exception:" << e.what() << endl;
+        TLOGERROR("MDbExcuteRecord::Init exception:" << e.what() << endl);
+        // LOG->error() << "MDbExcuteRecord::Init exception:" << e.what() << endl;
         return false;
     }
     return true;
@@ -110,8 +113,9 @@ void MDbExecuteRecord::Execute()
         catch(exception& e)
         {
             string errMsg(e.what());
-            LOG->error() << "MDbExcuteRecord::Excute:" << strSql
-                         << " exception:" << errMsg << endl;
+            TLOGERROR("MDbExcuteRecord::Excute:" << strSql << " exception:" << errMsg << endl);
+            // LOG->error() << "MDbExcuteRecord::Excute:" << strSql
+            //              << " exception:" << errMsg << endl;
             TarsRemoteNotify::getInstance()->report("MysqlExcuteError: " + errMsg);
         }
     }

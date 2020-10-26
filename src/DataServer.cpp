@@ -19,7 +19,7 @@ DataServer::initialize()
     addConfig(ServerConfig::ServerName + ".conf");
     // 获取配置文件路径
     const std::string strConfFileName = ServerConfig::BasePath + ServerConfig::ServerName + ".conf";
-    LOG->debug() << "conf: " << strConfFileName << endl;
+    TLOGDEBUG("conf: " << strConfFileName << endl);
     // 拉取配置文件
     SConfig::getInstance()->LoadConfig(strConfFileName);
 
@@ -46,7 +46,7 @@ main(int argc, char* argv[])
         // 初始化MDbExecuteRecord
         if (!MDbExecuteRecord::getInstance()->Init())
         {
-            LOG->error() << "db config update thread init error" << endl;
+            TLOGERROR("db config update thread init error" << endl);
             return -1;
         }
         // 运行MDbExecuteRecord

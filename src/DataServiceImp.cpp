@@ -27,9 +27,9 @@ int DataServiceImp::hasUser(const string &wx_id, bool &userExist, tars::TarsCurr
 {
     userExist = UserHandle::getInstance()->hasUser(wx_id);
     if (userExist)
-        LOG->debug() << "DataServiceImp::hasUser: User " << wx_id << " exist" << endl;
+        TLOGDEBUG("DataServiceImp::hasUser: User " << wx_id << " exist" << endl);
     else
-        LOG->debug() << "DataServiceImp::hasUser: User " << wx_id << " not exist" << endl;
+        TLOGDEBUG("DataServiceImp::hasUser: User " << wx_id << " not exist" << endl);
     
     return 0;
 }
@@ -39,9 +39,9 @@ int DataServiceImp::hasPhone(const string &phone, bool &phoneExist, tars::TarsCu
 {
     phoneExist = UserHandle::getInstance()->hasPhone(phone);
     if (phoneExist)
-        LOG->debug() << "DataServiceImp::hasPhone: Phone " << phone << " exist" << endl;
+        TLOGDEBUG("DataServiceImp::hasPhone: Phone " << phone << " exist" << endl);
     else
-        LOG->debug() << "DataServiceImp::hasPhone: Phone " << phone << " not exist" << endl;
+        TLOGDEBUG("DataServiceImp::hasPhone: Phone " << phone << " not exist" << endl);
     return 0;
 }
 //////////////////////////////////////////////////////
@@ -51,7 +51,7 @@ int DataServiceImp::createUser(const string &wx_id, const LifeService::UserInfo 
     int iret = UserHandle::getInstance()->InsertUserData(wx_id, userInfo);
     if (iret == 0)
     {
-        LOG->debug() << "DataServiceImp::createUser: Create user:" << wx_id << " successfully" << endl;
+        TLOGDEBUG("DataServiceImp::createUser: Create user:" << wx_id << " successfully" << endl);
         return 0;
     }
     TarsRemoteNotify::getInstance()->report("DataServiceImp::createUser:" + wx_id + " error");
@@ -64,7 +64,7 @@ int DataServiceImp::getUserInfo(const string &wx_id, LifeService::UserInfo &user
     if (UserHandle::getInstance()->hasUser(wx_id))
     {
         userInfo = UserHandle::getInstance()->getUserInfoById(wx_id);
-        LOG->debug() << "DataServiceImp::getUserInfo: " << wx_id << " successfully" << endl;
+        TLOGDEBUG("DataServiceImp::getUserInfo: " << wx_id << " successfully" << endl);
         return 0;
     }
     LOG->error() << "DataServiceImp::getUserInfo: User not exist." << endl;
@@ -75,7 +75,7 @@ int DataServiceImp::getUserInfo(const string &wx_id, LifeService::UserInfo &user
 int DataServiceImp::getGroupInfo(map<tars::Int32, string> &groupInfo, tars::TarsCurrentPtr current)
 {
     groupInfo = UserHandle::getInstance()->mGroupInfo;
-    LOG->debug() << "DataServiceImp::getGroupInfo successfully" << endl;
+    TLOGDEBUG("DataServiceImp::getGroupInfo successfully" << endl);
     return 0;
 }
 //////////////////////////////////////////////////////
@@ -94,7 +94,7 @@ int DataServiceImp::createClub(const LifeService::ClubInfo &clubInfo, string &cl
     int iret = ClubHandle::getInstance()->InsertClubData(clubInfo, club_id);
     if (0 == iret)
     {
-        LOG->debug() << "DataServiceImp::createClub: Successful" << endl;
+        TLOGDEBUG("DataServiceImp::createClub: Successful" << endl);
         return 0;
     }
     TarsRemoteNotify::getInstance()->report("DataServiceImp::createClub:" + club_id + " error");
@@ -286,7 +286,7 @@ int DataServiceImp::getLike(const string &message_id, tars::Int32 &like_count, t
 // int DataServiceImp::insertData(const string &sTableName, const vector<LifeService::Column> &vColumns, tars::TarsCurrentPtr current)
 // {
 //     MDbQueryRecord::getInstance()->InsertData(sTableName, vColumns);
-//     LOG->debug() << "DataServiceImp::insertData Execute Table: " << sTableName << endl;
+//     TLOGDEBUG("DataServiceImp::insertData Execute Table: " << sTableName << endl);
 //     return 0;
 // }
 //////////////////////////////////////////////////////
@@ -306,7 +306,7 @@ int DataServiceImp::getLike(const string &message_id, tars::Int32 &like_count, t
 //         LOG->error() << "DataServiceImp::queryData: " << e.what() << endl;
 //         return -1;
 //     }
-//     LOG->debug() << "DataServiceImp::queryData: Query Table: " << sTableName << endl;
+//     TLOGDEBUG("DataServiceImp::queryData: Query Table: " << sTableName << endl);
 //     vmpResults = mysql_data.data();
 //     return 0;
 // }

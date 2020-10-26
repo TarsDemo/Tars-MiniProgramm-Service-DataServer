@@ -2,8 +2,11 @@
 DataServer
 DataService.h
 UserInfoService.h
-*.tgz
+
+# Build file
+build
 test_util
+
 # Prerequisites
 *.d
 

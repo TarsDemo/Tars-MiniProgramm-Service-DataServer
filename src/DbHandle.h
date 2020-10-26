@@ -3,7 +3,6 @@
 
 #include "util/tc_singleton.h"
 #include "util/tc_thread_rwlock.h"
-#include "util/tc_shared_ptr.h"
 #include "util/tc_thread.h"
 #include "util/tc_mysql.h"
 #include <vector>
