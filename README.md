@@ -7,22 +7,30 @@ LifeService 小程序案例数据访问后端，用于直接操作数据库，�
 ## 项目结构
 ```sh
 .
-├── Config.h                # 配置文件
-├── DataServer.cpp          # 服务实现
-├── DataServer.h
-├── DataServiceImp.cpp      # 接口实现
-├── DataServiceImp.h        # 接口定义
-├── DataService.tars        # tars协议文件
-├── DbHandle.cpp            # DbHandle实现
-├── DbHandle.h              # 数据模型
-├── makefile                # 项目构建makefile
-├── MysqlHandler.cpp        # MysqlHandler实现
-├── MysqlHandler.h          # Mysql操作
+├── CMakeLists.txt
 ├── README.md
-├── test
-│   └── test_util.cpp       # 工具类测试
-├── util.cpp                # util实现
-└── util.h                  # Mysql语句组装工具
+├── build
+├── conf
+│   └── DataServer.conf     # 配置文件
+├── docs
+│   ├── RPC.md
+│   └── images
+├── src
+│   ├── CMakeLists.txt
+│   ├── Config.h            # 配置类
+│   ├── DataServer.cpp      # 服务实现
+│   ├── DataServer.h
+│   ├── DataService.tars    # tars协议文件
+│   ├── DataServiceImp.cpp  # 服务接口实现
+│   ├── DataServiceImp.h    # 服务接口定义
+│   ├── DbHandle.cpp        # DbHandle实现
+│   ├── DbHandle.h          # 数据模型
+│   ├── MysqlHandler.cpp    # MysqlHandler实现
+│   ├── MysqlHandler.h      # Mysql操作
+│   ├── util.cpp            # util实现
+│   └── util.h              # Mysql join 语句组装工具
+└── test
+    └── test_util.cpp       # 工具类测试              
 ```
 
 ## 开发环境
