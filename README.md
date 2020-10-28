@@ -1,5 +1,7 @@
 # DataServer
 
+[English Version](README_en.md)
+
 LifeService 小程序案例数据访问后端，用于直接操作数据库，对其他服务提供数据操作接口。
 
 服务接口可查看 [接口文档](docs/RPC.md)
@@ -80,7 +82,7 @@ make tar
 * 在发布版本中便可以找到刚刚上传的发布包并选择
 * 点击 `发布` 即可完成发布
 
-同时需要在 **服务配置** 中添加文件`DataServer.conf`，其中配置如下，没有添加会直接使用`Config.h`中填写的值
+同时需要在 **服务配置** 中添加文件 `DataServer.conf`，其中配置如下，没有添加会直接使用 `Config.h` 中填写的值
 
 ```xml
 <LifeService>
